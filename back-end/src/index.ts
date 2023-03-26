@@ -1,8 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 dotenv.config();
 
+import informationsRouter from "./routers/informationsRouters";
+
 const server = express();
+
+server.use(express.json());
+server.use(cors());
+server.use(informationsRouter);
 
 server.get("/", (req, res) => {
   res.send("hello world");
