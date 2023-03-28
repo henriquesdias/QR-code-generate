@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import { Input } from "../styles/Input";
 import { Form } from "../styles/Form";
 import postInformations from "../api/postInformations";
+import { generateCanvas } from "../utils";
 
 export default function MainPage() {
   const [form, setForm] = useState({
@@ -13,46 +14,27 @@ export default function MainPage() {
   const [error, setError] = useState<null | string>(null);
   function submitData(event: FormEvent) {
     event.preventDefault();
+    const regex = new RegExp(
+      /https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/
+    );
+    if (!regex.test(form.githubUrl) || !regex.test(form.linkedinUrl)) {
+      setError("The fields linkedin and github must be links");
+      return;
+    }
+    setError(null);
     postInformations(form)
-      .catch((res) => setError(res))
+      .catch(() => setError("This name already in use"))
       .then((res) => {
-        setError(null);
-        generateCanvas(res.name);
+        if (res) {
+          generateCanvas(res.name);
+        }
       });
   }
-  function generateCanvas(name: string) {
-    const canvas = document.querySelector("canvas");
-    const context = canvas?.getContext("2d");
-    if (canvas && context) {
-      canvas.width = 600;
-      canvas.height = 800;
 
-      context.fillStyle = "#FFFFFF";
-      context.fillRect(0, 0, 600, 800);
-
-      context.fillStyle = "#000000";
-      context.font = "30px Arial";
-      context.fillText(`Nome: ${name}`, 170, 100);
-      context.fillText("Scan Me", 180, 150);
-      const url = window.location.href;
-      const img = new Image();
-      img.crossOrigin = "anonymous";
-      img.src = `https://api.qrserver.com/v1/create-qr-code/?data=${url}${name}&size=200x200`;
-      img.onload = () => {
-        context?.drawImage(img, 175, 200, 200, 200);
-        const link = document.createElement("a");
-        link.download = "my-info.png";
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-      };
-    }
-  }
   return (
     <Form onSubmit={submitData}>
       <h1>QR Code Image Generator</h1>
-      <p style={{ color: "red", marginBottom: "10px" }}>
-        {error ? "Name already in use" : ""}
-      </p>
+      <p style={{ color: "red", marginBottom: "10px" }}>{error ? error : ""}</p>
       <Input>
         <div>Name</div>
         <input
@@ -84,7 +66,6 @@ export default function MainPage() {
         />
       </Input>
       <button type="submit">Generate Image</button>
-      <canvas id="canvas"></canvas>
     </Form>
   );
 }

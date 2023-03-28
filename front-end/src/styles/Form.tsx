@@ -4,6 +4,7 @@ export const Form = styled.form`
   margin: 50px auto 0 auto;
   width: 100%;
   max-width: 800px;
+  padding: 10px;
   h1 {
     font-size: 22px;
     margin-bottom: 30px;
@@ -13,11 +14,9 @@ export const Form = styled.form`
     border: 1px solid black;
     background-color: white;
     height: 50px;
-    width: 400px;
+    width: 100%;
     font-size: 25px;
     border-radius: 10px;
     cursor: pointer;
-  }
-  canvas {
   }
 `;

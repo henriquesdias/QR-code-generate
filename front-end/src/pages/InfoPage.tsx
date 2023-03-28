@@ -14,12 +14,17 @@ export default function InfoPage() {
   const { name } = useParams();
 
   useEffect(() => {
-    getInformations(name ? name : "").then((res) => {
-      console.log(res);
-      if (res) {
-        setInfo(res[0]);
-      }
-    });
+    getInformations(name ? name : "")
+      .catch((res) => {
+        console.log(res);
+
+        setError("User not found");
+      })
+      .then((res) => {
+        if (res) {
+          setInfo(res[0]);
+        }
+      });
   }, []);
 
   const urlBase = `http://${window.location.host}`;
@@ -36,7 +41,7 @@ export default function InfoPage() {
   }
   return (
     <InfoLayout>
-      <h2>Hello, my name is {info.name}</h2>
+      <h2>Hello, my name is {info.name.replace("-", " ")}</h2>
       <h1>My History</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam ea

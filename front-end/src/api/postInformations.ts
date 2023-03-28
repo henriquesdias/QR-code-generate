@@ -18,6 +18,9 @@ export default async function postInformations({
       },
       body: JSON.stringify({ name, linkedinUrl, githubUrl }),
     });
+    if (!response.ok) {
+      throw new Error("This name already in use");
+    }
     return response.json();
   } catch (error) {
     return error;
