@@ -11,7 +11,7 @@ export function generateCanvas(name: string) {
     context.fillStyle = "#000000";
     context.font = "30px Arial";
     context.fillText(`Nome: ${name}`, 170, 100);
-    context.fillText("Scan Me", 180, 150);
+    context.fillText("Scan Me", 210, 150);
     const url = window.location.href;
     const img = new Image();
     img.crossOrigin = "anonymous";
