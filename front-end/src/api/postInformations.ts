@@ -10,7 +10,7 @@ export default async function postInformations({
   githubUrl,
 }: Informations) {
   try {
-    const URL = "http://localhost:4001/";
+    const URL = import.meta.env.VITE_BASE_URL;
     const response = await fetch(URL, {
       method: "POST",
       headers: {

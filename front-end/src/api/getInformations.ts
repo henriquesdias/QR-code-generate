@@ -1,6 +1,6 @@
 export default async function getInformations(name: string) {
   try {
-    const URL = `http://localhost:4001/${name}`;
+    const URL = `${import.meta.env.VITE_BASE_URL}${name}`;
     const response = await fetch(URL, {
       method: "GET",
     });

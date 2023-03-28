@@ -9,6 +9,12 @@ export async function createInformations(req: Request, res: Response) {
   }
   const nameAdjusted = name.replace(" ", "-");
   try {
+    const info = await db.query("SELECT * FROM informations WHERE name = $1", [
+      nameAdjusted,
+    ]);
+    if (info.rowCount !== 0) {
+      return res.sendStatus(409);
+    }
     await db.query(
       "INSERT INTO informations (name,linkedin_url,github_url) VALUES ($1,$2,$3)",
       [nameAdjusted, linkedinUrl, githubUrl]

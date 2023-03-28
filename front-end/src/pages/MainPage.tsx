@@ -1,4 +1,4 @@
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 
 import { Input } from "../styles/Input";
 import { Form } from "../styles/Form";
@@ -10,13 +10,17 @@ export default function MainPage() {
     linkedinUrl: "",
     githubUrl: "",
   });
+  const [error, setError] = useState<null | string>(null);
   function submitData(event: FormEvent) {
     event.preventDefault();
     postInformations(form)
-      .catch((res) => console.log(res))
-      .then((res) => console.log(res));
+      .catch((res) => setError(res))
+      .then((res) => {
+        setError(null);
+        generateCanvas(res.name);
+      });
   }
-  function generateCanvas() {
+  function generateCanvas(name: string) {
     const canvas = document.querySelector("canvas");
     const context = canvas?.getContext("2d");
     if (canvas && context) {
@@ -28,15 +32,14 @@ export default function MainPage() {
 
       context.fillStyle = "#000000";
       context.font = "30px Arial";
-      context.fillText("Nome: Henrique", 170, 100);
-      context.fillText("Scan Me", 130, 150);
-
+      context.fillText(`Nome: ${name}`, 170, 100);
+      context.fillText("Scan Me", 180, 150);
+      const url = window.location.href;
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.src =
-        "https://api.qrserver.com/v1/create-qr-code/?data=https://google.com&size=200x200";
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?data=${url}${name}&size=200x200`;
       img.onload = () => {
-        context?.drawImage(img, 150, 200, 200, 200);
+        context?.drawImage(img, 175, 200, 200, 200);
         const link = document.createElement("a");
         link.download = "my-info.png";
         link.href = canvas.toDataURL("image/png");
@@ -44,12 +47,12 @@ export default function MainPage() {
       };
     }
   }
-  useEffect(() => {
-    // generateCanvas();
-  }, []);
   return (
-    <Form>
+    <Form onSubmit={submitData}>
       <h1>QR Code Image Generator</h1>
+      <p style={{ color: "red", marginBottom: "10px" }}>
+        {error ? "Name already in use" : ""}
+      </p>
       <Input>
         <div>Name</div>
         <input
