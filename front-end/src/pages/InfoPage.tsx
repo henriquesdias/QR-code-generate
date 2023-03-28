@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
 
 import getInformations from "../api/getInformations";
 import { Information } from "../protocols";
@@ -13,23 +14,26 @@ export default function InfoPage() {
   const { name } = useParams();
 
   useEffect(() => {
-    getInformations(name ? name : "")
-      .catch((res) => {
-        // console.log(res);
-        setError("Informations not found");
-      })
-      .then((res) => {
-        // console.log(res);
-        if (res) {
-          setInfo(res[0]);
-        }
-      });
+    getInformations(name ? name : "").then((res) => {
+      console.log(res);
+      if (res) {
+        setInfo(res[0]);
+      }
+    });
   }, []);
 
-  if (!info) {
-    return <div>Loading</div>;
+  const urlBase = `http://${window.location.host}`;
+  if (!info && error) {
+    return (
+      <ErrorMessage>
+        Error, go to <a href={urlBase}>Home</a>
+      </ErrorMessage>
+    );
   }
 
+  if (!info) {
+    return <Loading />;
+  }
   return (
     <InfoLayout>
       <h2>Hello, my name is {info.name}</h2>
@@ -62,3 +66,30 @@ function ButtonLink({ children, url }: IButtonLink) {
     </ButtonLinkLayout>
   );
 }
+
+const ErrorMessage = styled.div`
+  margin: 50px auto 0 auto;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  a {
+    margin-left: 10px;
+  }
+`;
+
+const Loading = styled.div`
+  margin: 50px auto 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 9px solid;
+  border-color: #dbdcef;
+  border-right-color: #474bff;
+  animation: spinner-d3wgkg 1s infinite linear;
+
+  @keyframes spinner-d3wgkg {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+`;

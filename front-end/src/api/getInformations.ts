@@ -4,8 +4,8 @@ export default async function getInformations(name: string) {
     const response = await fetch(URL, {
       method: "GET",
     });
-    if (!response) {
-      throw { message: "informations dont exists" };
+    if (!response.ok) {
+      throw new Error(`User not found`);
     }
     return response.json();
   } catch (error) {
