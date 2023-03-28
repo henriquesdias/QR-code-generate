@@ -37,6 +37,8 @@ export async function getInformations(req: Request, res: Response) {
     }
     res.status(200).send(info.rows);
   } catch (error) {
+    console.log(error);
+
     res.sendStatus(500);
   }
 }
