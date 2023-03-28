@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 
-import informationsRouter from "./routers/informationsRouters";
+import informationsRouter from "./routers/informationsRouters.js";
 
 const server = express();
 

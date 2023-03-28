@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import db from "../db/postgres";
+import db from "../db/postgres.js";
 
 export async function createInformations(req: Request, res: Response) {
   const { name, linkedinUrl, githubUrl } = req.body;

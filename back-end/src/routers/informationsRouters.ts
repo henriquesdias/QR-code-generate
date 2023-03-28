@@ -3,7 +3,7 @@ import { Router } from "express";
 import {
   createInformations,
   getInformations,
-} from "../controllers/informationsController";
+} from "../controllers/informationsController.js";
 
 const informationsRouter = Router();
 
