@@ -6,7 +6,6 @@ export default async function getInformations(name: string) {
     });
     if (!response) {
       throw { message: "informations dont exists" };
-      return;
     }
     return response.json();
   } catch (error) {
