@@ -3,11 +3,12 @@ import { ResetStyle } from "./styles/Reset";
 import InfoPage from "./pages/InfoPage";
 
 export default function App() {
+  const url = window.location.href.split("/");
+
   return (
     <>
       <ResetStyle />
-      <MainPage />
-      {/* <InfoPage /> */}
+      {url[3] ? <InfoPage /> : <MainPage />}
     </>
   );
 }

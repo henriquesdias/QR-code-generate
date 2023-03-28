@@ -26,6 +26,9 @@ export async function getInformations(req: Request, res: Response) {
     const info = await db.query("SELECT * FROM informations WHERE name = $1", [
       name,
     ]);
+    if (info.rowCount === 0) {
+      return res.sendStatus(404);
+    }
     res.status(200).send(info.rows);
   } catch (error) {
     res.sendStatus(500);

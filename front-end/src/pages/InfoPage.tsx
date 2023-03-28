@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
+
 import styled from "styled-components";
 
+import getInformations from "../api/getInformations";
+import { Information } from "../protocols";
+
 export default function InfoPage() {
+  const [info, setInfo] = useState<Information | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const url = window.location.href.split("/");
+  useEffect(() => {
+    getInformations(url[3])
+      .catch((res) => {
+        // console.log(res);
+        setError("Informations not found");
+      })
+      .then((res) => {
+        // console.log(res);
+        if (res) {
+          setInfo(res[0]);
+        }
+      });
+  }, []);
+
+  if (!info) {
+    return <div>Loading</div>;
+  }
+
   return (
     <InfoLayout>
-      <h2>Hello, my name is John</h2>
+      <h2>Hello, my name is {info.name}</h2>
       <h1>My History</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam ea
@@ -12,8 +38,8 @@ export default function InfoPage() {
         Esse!
       </p>
       <div>
-        <ButtonLink link="http://">Github</ButtonLink>
-        <ButtonLink link="http://">LinkedIn</ButtonLink>
+        <ButtonLink url={info.github_url}>Github</ButtonLink>
+        <ButtonLink url={info.linkedin_url}>LinkedIn</ButtonLink>
       </div>
     </InfoLayout>
   );
@@ -21,13 +47,13 @@ export default function InfoPage() {
 
 interface IButtonLink {
   children: string;
-  link: string;
+  url: string;
 }
 
-function ButtonLink({ children, link }: IButtonLink) {
+function ButtonLink({ children, url }: IButtonLink) {
   return (
     <ButtonLinkLayout>
-      <a href="http://" target="_blank" rel="noopener noreferrer">
+      <a href={url} target="_blank">
         {children}
       </a>
     </ButtonLinkLayout>
@@ -40,12 +66,15 @@ const ButtonLinkLayout = styled.div`
   width: 100px;
   height: 40px;
   border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
   a {
     text-decoration: none;
     color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
