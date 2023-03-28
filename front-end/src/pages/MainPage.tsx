@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 import { Input } from "../styles/Input";
 import { Form } from "../styles/Form";
+import postInformations from "../api/postInformations";
 
 export default function MainPage() {
   const [form, setForm] = useState({
     name: "",
-    linkedin: "",
-    github: "",
+    linkedinUrl: "",
+    githubUrl: "",
   });
-
+  function submitData(event: FormEvent) {
+    event.preventDefault();
+    postInformations(form)
+      .catch((res) => console.log(res))
+      .then((res) => console.log(res));
+  }
   return (
-    <Form>
+    <Form onSubmit={submitData}>
       <h1>QR Code Image Generator</h1>
       <Input>
         <div>Name</div>
@@ -27,7 +33,7 @@ export default function MainPage() {
         <div>LinkedIn</div>
         <input
           type="text"
-          name="linkedin"
+          name="linkedinUrl"
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
@@ -37,13 +43,13 @@ export default function MainPage() {
         <div>Github</div>
         <input
           type="text"
-          name="github"
+          name="githubUrl"
           onChange={(e) =>
             setForm({ ...form, [e.target.name]: e.target.value })
           }
         />
       </Input>
-      <button>Generate Image</button>
+      <button type="submit">Generate Image</button>
     </Form>
   );
 }
