@@ -6,8 +6,8 @@ export default function App() {
   return (
     <>
       <ResetStyle />
-      {/* <MainPage /> */}
-      <InfoPage />
+      <MainPage />
+      {/* <InfoPage /> */}
     </>
   );
 }

@@ -1,9 +1,12 @@
 import { Router } from "express";
 
-import createInformations from "../controllers/informationsController";
+import {
+  createInformations,
+  getInformations,
+} from "../controllers/informationsController";
 
 const informationsRouter = Router();
 
-informationsRouter.post("/", createInformations);
+informationsRouter.post("/", createInformations).get("/:name", getInformations);
 
 export default informationsRouter;
