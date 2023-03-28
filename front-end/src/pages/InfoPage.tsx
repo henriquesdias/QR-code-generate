@@ -8,9 +8,9 @@ import { InfoLayout } from "../styles/InfoLayout";
 export default function InfoPage() {
   const [info, setInfo] = useState<Information | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const url = window.location.href.split("/");
+  const name = window.location.pathname.replace("/", "");
   useEffect(() => {
-    getInformations(url[3])
+    getInformations(name)
       .catch((res) => {
         // console.log(res);
         setError("Informations not found");
