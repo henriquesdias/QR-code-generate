@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useParams } from "react-router-dom";
+
 import getInformations from "../api/getInformations";
 import { Information } from "../protocols";
 import { ButtonLinkLayout } from "../styles/ButtonLink";
@@ -8,9 +10,10 @@ import { InfoLayout } from "../styles/InfoLayout";
 export default function InfoPage() {
   const [info, setInfo] = useState<Information | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const name = window.location.pathname.replace("/", "");
+  const { name } = useParams();
+
   useEffect(() => {
-    getInformations(name)
+    getInformations(name ? name : "")
       .catch((res) => {
         // console.log(res);
         setError("Informations not found");
