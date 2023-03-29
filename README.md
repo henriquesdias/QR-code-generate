@@ -31,6 +31,10 @@ An easy-generate QR code with your information like name, linkedin and github UR
 ```
 4. Access http://localhost:5173
 
+## Deploy
+
+To access the project without install anything, please access https://buzzvel-test.vercel.app/
+
 ### Built With
 - React
 - Node
