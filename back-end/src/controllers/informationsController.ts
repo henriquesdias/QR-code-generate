@@ -7,7 +7,10 @@ export async function createInformations(req: Request, res: Response) {
   if (!name || !linkedinUrl || !githubUrl) {
     return res.sendStatus(422);
   }
-  const nameAdjusted = name.replace(" ", "-");
+  const nameAdjusted = name
+    .split(" ")
+    .filter((e: string) => e !== "")
+    .join("-");
   try {
     const info = await db.query("SELECT * FROM informations WHERE name = $1", [
       nameAdjusted,
