@@ -5,10 +5,10 @@ export default async function getInformations(name: string) {
       method: "GET",
     });
     if (!response.ok) {
-      throw new Error(`User not found`);
+      throw new Error("User not found");
     }
     return response.json();
   } catch (error) {
-    return error;
+    throw new Error("User not found");
   }
 }
