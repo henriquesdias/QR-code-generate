@@ -21,8 +21,9 @@ export default async function postInformations({
     if (!response.ok) {
       throw new Error("This name already in use");
     }
+
     return response.json();
   } catch (error) {
-    return error;
+    throw new Error("This name already in use");
   }
 }
