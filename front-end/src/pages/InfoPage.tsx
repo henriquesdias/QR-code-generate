@@ -41,7 +41,7 @@ export default function InfoPage() {
   }
   return (
     <InfoLayout>
-      <h2>Hello, my name is {info.name.replace("-", " ")}</h2>
+      <h2>Hello, my name is {info.name.replaceAll("-", " ")}</h2>
       <h1>My History</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam ea

@@ -23,7 +23,7 @@ export async function createInformations(req: Request, res: Response) {
       [nameAdjusted, linkedinUrl, githubUrl]
     );
 
-    res.status(201).send({ name, linkedinUrl, githubUrl });
+    res.status(201).send({ name: nameAdjusted, linkedinUrl, githubUrl });
   } catch (error) {
     res.sendStatus(500);
   }
