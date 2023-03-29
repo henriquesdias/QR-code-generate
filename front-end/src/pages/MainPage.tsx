@@ -22,6 +22,7 @@ export default function MainPage() {
       /https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,}/
     );
     if (!regex.test(form.githubUrl) || !regex.test(form.linkedinUrl)) {
+      setLoading(false);
       setError("The fields linkedin and github must be links");
       return;
     }

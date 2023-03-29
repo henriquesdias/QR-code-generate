@@ -17,7 +17,6 @@ export default function InfoPage() {
     getInformations(name ? name : "")
       .catch((res) => {
         console.log(res);
-
         setError("User not found");
       })
       .then((res) => {
@@ -65,7 +64,7 @@ interface IButtonLink {
 function ButtonLink({ children, url }: IButtonLink) {
   return (
     <ButtonLinkLayout>
-      <a href={url} target="_blank">
+      <a href={url.startsWith("http") ? url : `//${url}`} target="_blank">
         {children}
       </a>
     </ButtonLinkLayout>
